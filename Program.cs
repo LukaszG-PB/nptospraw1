@@ -9,17 +9,13 @@ namespace zad_9
     {
         public string Sender { get; set; }
         public string Content { get; set; }
-        /// <summary>
-        /// Tworzy nową wiadomość z nadawcą i treścią.
-        /// </summary>
+
         public Message(string sender, string content)
         {
             Sender = sender;
             Content = content;
         }
-        /// <summary>
-        /// Zwraca tekstową reprezentację wiadomości.
-        /// </summary>
+
         public override string ToString()
         {
             return $"[{Sender}] {Content}";
@@ -32,9 +28,7 @@ namespace zad_9
         public string Password { get; private set; }
 
         public List<Message> Inbox { get; private set; }
-        /// <summary>
-        /// Tworzy nowego użytkownika i inicjalizuje skrzynkę odbiorczą.
-        /// </summary>
+
         public User(string username, string password)
         {
             Username = username;
@@ -50,9 +44,7 @@ namespace zad_9
         private User? loggedUser;
 
         private const string FILE_NAME = "users.txt";
-        /// <summary>
-        /// Tworzy obiekt komunikatora i wczytuje użytkowników z pliku.
-        /// </summary>
+
         public Messenger()
         {
             users = new Dictionary<string, User>();
@@ -69,9 +61,7 @@ namespace zad_9
                 return loggedUser.Username;
             }
         }
-        /// <summary>
-        /// Rejestruje nowego użytkownika w systemie.
-        /// </summary>
+
         public void Register(string username, string password, string confirmPassword)
         {
             if (string.IsNullOrWhiteSpace(username))
@@ -92,9 +82,7 @@ namespace zad_9
 
             SaveUserToFile(user);
         }
-        /// <summary>
-        /// Loguje użytkownika do systemu.
-        /// </summary>
+
         public void Login(string username, string password)
         {
             if (loggedUser != null)
@@ -110,9 +98,7 @@ namespace zad_9
 
             loggedUser = user;
         }
-        /// <summary>
-        /// Wylogowuje aktualnie zalogowanego użytkownika.
-        /// </summary>
+
         public void Logout()
         {
             if (loggedUser == null)
@@ -120,9 +106,7 @@ namespace zad_9
 
             loggedUser = null;
         }
-        /// <summary>
-        /// Wysyła wiadomość do wskazanego użytkownika.
-        /// </summary>
+
         public void SendMessage(string receiverUsername, string content)
         {
             if (loggedUser == null)
@@ -138,9 +122,7 @@ namespace zad_9
 
             users[receiverUsername].Inbox.Add(msg);
         }
-        /// <summary>
-        /// Zwraca listę nadawców wraz z liczbą otrzymanych wiadomości.
-        /// </summary>
+
         public Dictionary<string, int> GetSenders()
         {
             if (loggedUser == null)
@@ -150,9 +132,7 @@ namespace zad_9
                 .GroupBy(m => m.Sender)
                 .ToDictionary(g => g.Key, g => g.Count());
         }
-        /// <summary>
-        /// Pobiera wszystkie wiadomości od wybranego nadawcy.
-        /// </summary>
+
         public List<Message> GetMessagesFromSender(string sender)
         {
             if (loggedUser == null)
@@ -167,9 +147,7 @@ namespace zad_9
 
             return messages;
         }
-        /// <summary>
-        /// Zapisuje dane użytkownika do pliku.
-        /// </summary>
+
         private void SaveUserToFile(User user)
         {
             File.AppendAllText(
@@ -177,9 +155,7 @@ namespace zad_9
                 $"{user.Username};{user.Password}{Environment.NewLine}"
             );
         }
-        /// <summary>
-        /// Wczytuje użytkowników zapisanych w pliku.
-        /// </summary>
+
         private void LoadUsersFromFile()
         {
             if (!File.Exists(FILE_NAME))
@@ -287,9 +263,6 @@ namespace zad_9
 
     class Program
     {
-        /// <summary>
-        /// Główna metoda programu obsługująca menu komunikatora.
-        /// </summary>
         static void Main(string[] args)
         {
             Messenger messenger = new Messenger();
